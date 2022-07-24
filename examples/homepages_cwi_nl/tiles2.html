@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>https://homepages.cwi.nl/~steven/Talks/2017/06-10-iot/game-demo.html</title>
+        <script src="xsltforms/xsltforms.js"></script>
+        <style>td { border: 1px solid #ccc; }</style>
+    </head>
+    <body>
+        <xforms-model>
+            <xforms-instance>
+                <script type="application/xml">
+                    <data xmlns="">
+                      <row><cell>1</cell><cell>5</cell><cell>8</cell><cell>12</cell></row>
+                      <row><cell>2</cell><cell>6</cell><cell>9</cell><cell>13</cell></row>
+                      <row><cell>3</cell><cell>7</cell><cell>10</cell><cell>14</cell></row>
+                      <row><cell>4</cell><cell>.</cell><cell>11</cell><cell>15</cell></row>
+                    </data>
+                </script>
+            </xforms-instance>
+        </xforms-model>
+        <table xf-repeat-ref="row">
+            <tr xf-repeat-ref="cell">
+                <td>
+                    <xforms-trigger xf-appearance="minimal">
+                        <xforms-label>
+                            <xforms-output xf-value="concat('img/', if (.='.', 'blank', .), '.png')" xf-mediatype="image/png"></xforms-output>
+                        </xforms-label>
+                        <xforms-action ev-event="DOMActivate" xf-if="
+                            ../following-sibling::row[1]/cell[count(context()/preceding-sibling::cell)+1]='.' or
+                            preceding-sibling::cell[1]='.' or
+                            ../preceding-sibling::row[1]/cell[count(context()/preceding-sibling::cell)+1]='.' or
+                            following-sibling::cell[1]='.'">
+                            <xforms-setvalue xf-ref="//cell[.='.']" xf-value="context()"></xforms-setvalue>
+                            <xforms-setvalue xf-ref="." xf-value="'.'"></xforms-setvalue>
+                        </xforms-action>
+                    </xforms-trigger>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
